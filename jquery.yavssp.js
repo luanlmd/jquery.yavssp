@@ -23,22 +23,23 @@ jQuery.fn.yavssp = function(options)
 		onStart();
 		console.log('started');
 		interval = setInterval(function() {
-			console.log('tick');
-			atual = $(holder).find("> *:visible"); 
-			next = atual.next();
-
-            if (next.length == 0)
-            {
-                next = $(holder).find("> *:first");
-            }
-            atual.slideUp(speed);
-            next.slideDown(speed);
-            onChange(next.attr('id'));
+			change();			
 		}, pause);
 	}
 	
+	function change(next)
+	{
+		atual = $(holder).find("> *:visible");
+		if (next == undefined) { next = atual.next(); }
+		if (next.length == 0) { next = $(holder).find("> *:first"); }
+		atual.slideUp(speed);
+		next.slideDown(speed);
+		
+		onChange(next.attr('id'));
+	}
+	
 	// Stop the interval
-	$(stopOver).mouseover(function() {
+	$(stopOver).mouseover(function(){
 		console.log('stopped');
         clearTimeout(interval);
         onStop();
@@ -48,8 +49,15 @@ jQuery.fn.yavssp = function(options)
     $(stopOver).mouseout(function() {
         start();
     });
+    
+	goTo = function(href)
+	{
+		change($(href));
+	}
 	
 	// Auto start at page load
 	console.log('starting');
 	start(this);
+	
+	return this;// {'goTo':goTo};
 };

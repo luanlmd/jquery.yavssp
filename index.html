@@ -10,9 +10,13 @@
 			{
 				$('#nav a').removeClass('active');
 				$('a[href=#'+id+']').addClass('active');
-			}			
-			$(document).ready(function(){
-				$('#holder').yavssp({'pause':2000,'stopOver':'#slider','onChange':function(id){ onChange(id); }});
+			}
+			$(document).ready(function() {
+				var slider = $('#holder').yavssp({'pause':2000,'stopOver':'#slider','onChange':function(id){ onChange(id); }});
+				$('#nav a').click(function(){
+					slider.goTo($(this).attr('href'));
+					return false;
+				});
 			});
 		</script>
 		<style>

@@ -59,5 +59,5 @@ jQuery.fn.yavssp = function(options)
 	console.log('starting');
 	start(this);
 	
-	return this;// {'goTo':goTo};
+	return {'goTo':goTo};
 };

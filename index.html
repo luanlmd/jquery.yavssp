@@ -1,29 +1,43 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Yet Another Very Simple Slide Plugin</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 		<script src="jquery.yavssp.js"></script>
 		<script>
+			function onChange(id)
+			{
+				$('#nav a').removeClass('active');
+				$('a[href=#'+id+']').addClass('active');
+			}			
 			$(document).ready(function(){
-				$('#holder').yavssp([]);
+				$('#holder').yavssp({'pause':2000,'stopOver':'#slider','onChange':function(id){ onChange(id); }});
 			});
 		</script>
 		<style>
-			#holder { border:2px solid #777; width:500px; height:200px; margin:auto; }			
+			#slider { background:gray; }
+			#holder { border:2px solid #777; width:500px; height:200px; margin:auto; background:pink; }
+			#nav a.active { color:red; }
 		</style>
 	</head>
 	<body>
-		<div id="holder">
-			<a href="http://luanlmd.com">Cool site</a>
-			<img src="" />
-			<div>
-				<h1>Title</h1>
-				<p>Some cool text</p>
+		<div id="slider">
+			<div id="holder">
+				<a id="i1" href="http://luanlmd.com">Cool site</a>
+				<img id="i2" src="" />
+				<div id="i3">
+					<h1>Title</h1>
+					<p>Some cool text</p>
+				</div>
+				<p id="i4">Some random text</p>
 			</div>
-		</div>
-		<div id="nav">
+			<div id="nav">
+				<a class="active" href="#i1">1</a>
+				<a href="#i2">2</a>
+				<a href="#i3">3</a>
+				<a href="#i4">4</a>
+			</div>
 		</div>
 	</body>
 </html>

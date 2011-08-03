@@ -1,37 +1,52 @@
 jQuery.fn.yavssp = function(options)
 {
-	if(options == undefined) { options = []; }
+	var options = options || []
+	var pause = options['pause'] || 5000;
+	var speed = options['speed'] || 500;
+	var stopOver = options['stopOver'] || '#' + $(this).attr('id');
+	var onStart = options['onStart'] || function() {};
+	var onChange = options['onChange'] || function() {};
+	var onStop = options['onStop'] || function() {};
+	
+	var holder = $(this);
+	
+	console.log(stopOver);
+	
+	$(this).find("> *").css({'position':'absolute'});
 	$(this).find("> *:not(:first)").hide();
 	
 	var interval = null;
 	
 	// Start the interval
-	function start(that)
+	function start()
 	{
+		onStart();
 		console.log('started');
 		interval = setInterval(function() {
 			console.log('tick');
-			atual = $(that).find("> *:visible"); 
+			atual = $(holder).find("> *:visible"); 
 			next = atual.next();
 
             if (next.length == 0)
             {
-                next = $(that).find("> *:first");
+                next = $(holder).find("> *:first");
             }
-            atual.hide();
-            next.show();
-		}, 1000);
+            atual.slideUp(speed);
+            next.slideDown(speed);
+            onChange(next.attr('id'));
+		}, pause);
 	}
 	
 	// Stop the interval
-	$(this).mouseover(function() {
+	$(stopOver).mouseover(function() {
 		console.log('stopped');
         clearTimeout(interval);
+        onStop();
     });
 
 	// Restart the interval
-    $(this).mouseout(function() {
-        start(this);
+    $(stopOver).mouseout(function() {
+        start();
     });
 	
 	// Auto start at page load

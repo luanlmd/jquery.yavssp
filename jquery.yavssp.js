@@ -1,6 +1,7 @@
 jQuery.fn.yavssp = function(options)
 {
 	var options = options || []
+	var debug = options['debug'] || false;
 	var pause = options['pause'] || 5000;
 	var speed = options['speed'] || 500;
 	var stopOver = options['stopOver'] || '#' + $(this).attr('id');
@@ -10,7 +11,7 @@ jQuery.fn.yavssp = function(options)
 	
 	var holder = $(this);
 	
-	console.log(stopOver);
+	debug && console.log('stop over:' + stopOver);
 	
 	$(this).find("> *").css({'position':'absolute'});
 	$(this).find("> *:not(:first)").hide();
@@ -21,7 +22,7 @@ jQuery.fn.yavssp = function(options)
 	function start()
 	{
 		onStart();
-		console.log('started');
+		debug && console.log('started');
 		interval = setInterval(function() {
 			change();			
 		}, pause);
@@ -32,6 +33,7 @@ jQuery.fn.yavssp = function(options)
 		atual = $(holder).find("> *:visible");
 		if (next == undefined) { next = atual.next(); }
 		if (next.length == 0) { next = $(holder).find("> *:first"); }
+		
 		atual.slideUp(speed);
 		next.slideDown(speed);
 		
@@ -40,7 +42,7 @@ jQuery.fn.yavssp = function(options)
 	
 	// Stop the interval
 	$(stopOver).mouseover(function(){
-		console.log('stopped');
+		debug && console.log('stopped');
         clearTimeout(interval);
         onStop();
     });
@@ -56,7 +58,6 @@ jQuery.fn.yavssp = function(options)
 	}
 	
 	// Auto start at page load
-	console.log('starting');
 	start(this);
 	
 	return {'goTo':goTo};
